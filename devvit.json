@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "bretts-mod-suite",
+  "title": "Brett's Mod Suite",
+  "description": "All-in-one Reddit moderation dashboard — queue, log, mail, and flair management in one app",
+  "requiredPermissions": ["read", "submit", "modposts"],
+  "triggers": {
+    "onAppInstall": "/internal/triggers/on-app-install",
+    "onUpdate": "/internal/triggers/on-update",
+    "onCommentCreate": "/internal/triggers/on-comment-create",
+    "onPostCreate": "/internal/triggers/on-post-create"
+  },
+  "server": {
+    "directory": "server"
+  },
+  "clientPages": {
+    "App": {
+      "jsx": "client/App.jsx"
+    }
+  },
+  "resources": {
+    "css": ["styles.css"]
+  },
+  "settings": {
+    "global": {
+      "apiKey": {
+        "type": "string",
+        "label": "API Key",
+        "isSecret": true,
+        "defaultValue": ""
+      },
+      "environment": {
+        "type": "select",
+        "label": "Environment",
+        "options": [
+          {"label": "Production", "value": "production"},
+          {"label": "Development", "value": "development"}
+        ],
+        "defaultValue": "development"
+      }
+    },
+    "subreddit": {
+      "welcomeMessage": {
+        "type": "string",
+        "label": "Welcome Message",
+        "defaultValue": "Welcome to our community! Use the mod tools below to manage your subreddit."
+      },
+      "autoModEnabled": {
+        "type": "boolean",
+        "label": "Enable Auto-Moderation",
+        "defaultValue": true
+      },
+      "queueThreshold": {
+        "type": "number",
+        "label": "Queue Alert Threshold",
+        "defaultValue": 50,
+        "validationEndpoint": "/internal/settings/validate-threshold"
+      }
+    }
+  },
+  "permissions": {
+    "reddit": {
+      "asUser": ["SUBMIT_POST", "SUBMIT_COMMENT", "SUBSCRIBE_TO_SUBREDDIT"]
+    }
+  }
+}
